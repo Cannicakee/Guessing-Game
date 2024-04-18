@@ -13,6 +13,7 @@ const randomInRange = (minNum, maxNum) => {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 };
 
+//ASKGUESS FUNCTION START
 function askGuess() {
     rl.question('Enter a guess: ', (answer) => {
         if (checkGuess(Number(answer))) {
@@ -23,32 +24,25 @@ function askGuess() {
         }
     });
 }
-// askGuess()
-const minNumber = () => {
-    return new Promise((resolve, reject) => {
-        rl.question("Enter a minimum number: ", (minAnswer) => {
-            console.log(Number(minAnswer))
-            resolve();
-        })
-    })
+askGuess()
+
+//ASKGUESS FUNCTION END
+
+//ASKRANGE QUESTIONS START
+function askRange() {
+    rl.question('Enter Min: ', (minAnswer) => {
+        rl.question('Enter Max: ', (maxAnswer) => {
+            console.log(`I'm thinking of a number between ${minAnswer} and ${maxAnswer}...`)
+            rl.close();
+    });
+});
 }
-const maxNumber = () => {
-    return new Promise((resolve, reject) => {
-        rl.question("Enter a maximum number: ", (maxAnswer) => {
-            console.log(Number(maxAnswer))
-            resolve();
-        })
-    })
-}
-const askRange = async () => {
-    await minNumber()
-    await maxNumber()
-    console.log(`I'm thinking of a number between ${minNumber} and ${maxNumber}`)
-    rl.close()
-}
+
 askRange();
 
-let secretnumber = randomInRange(0, 100);
+//ASKRANGE QUESTIONS END
+
+let secretnumber = randomInRange(minAnswer, maxAnswer);
 
 const checkGuess = num => {
     if (secretnumber < num) {
@@ -64,4 +58,3 @@ const checkGuess = num => {
         return true;
     }
 }
-
