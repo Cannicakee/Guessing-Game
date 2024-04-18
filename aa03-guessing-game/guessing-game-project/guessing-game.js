@@ -1,87 +1,48 @@
-//IMPORTING MODULES START
-const readline = require('node:readline');
-const { stdin: input, stdout: output } = require('node:process');
-// const { rejects } = require('node:assert');
-// const { resolve } = require('node:path');
-// const { resolveCaa } = require('node:dns');
+//Imported Libraries
 
+const readline = require('readline');
+const { stdin: input, stdout: output } = require('node:process');
 const rl = readline.createInterface({ input, output });
 
-//IMPORTING MODULES END
+//Global Scope
+let secretNumber = 1;
 
-//GLOBAL SCOPE START
-let secretnumber = Infinity;
-const randomInRange = (minNum, maxNum) => {
-    const minCeiled = Math.ceil(minNum);
-    const maxFloored = Math.floor(maxNum);
-    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+//Functions Below
+
+const checkGuess = (guessNum) => {
+    if (secretNumber < guessNum) {
+        console.log('Too high');
+        return false;
+    }
+    else if (secretNumber > guessNum) {
+        console.log('To low');
+        return false;
+    }
+    else {
+        console.log('Correct!');
+        return true;
+    }
 };
 
 
-
-//GLOBAL SCOPE END
-function askRange() {
-    rl.question('Enter a min number: ', (minAnswer) => {
-        rl.question('Enter a max number: ', (maxAnswer) => {
-            // secretnumber = randomInRange(minAnswer, maxAnswer);
-            secretnumber = randomInRange(minAnswer, maxAnswer);
-            console.log(`I'm thinking of a number between ${minAnswer} and ${maxAnswer}...`);
-            rl.close();
-        });
-    });
-}
-askRange();
-
-
-const checkGuess = num => {
-    if (secretnumber < num) {
-        console.log("Too high.")
-        return false;
-    }
-    if (secretnumber > num) {
-        console.log("Too low.")
-        return false;
-    }
-    if (secretnumber === num) {
-        console.log("Correct!")
-        return true;
-    }
-}
-
-
-//ASKGUESS FUNCTION START
 function askGuess() {
-    rl.question('Enter a guess: ', (answer) => {
-        if (checkGuess(Number(answer))) {
-            console.log('You Win')
-            rl.close();
-        } else {
-            askGuess()
+    rl.question('Enter a guess: ', (guessAnswer) => {
+
+        let guessNumVal = Number(guessAnswer);
+        if(typeof guessNumVal === 'number' && !isNaN(guessNumVal)){
+
+            if(!checkGuess(guessNumVal)){
+                askGuess();
+            }
+            else{
+                console.log('You win!');
+                rl.close();
+            }
+        }
+        else{
+            console.log('Enter a valid number');
+            askGuess();
         }
     });
-}
-
-askGuess()
-
-//ASKGUESS FUNCTION END
-
-// const randomInRange = (minNum, maxNum) => {
-//     const minCeiled = Math.ceil(minNum);
-//     const maxFloored = Math.floor(maxNum);
-//     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
-// };
-
-
-//ASKRANGE QUESTIONS START
-
-
-// function askRange() {
-//     rl.question('Enter a min number: ', (minAnswer) => {
-//         rl.question('Enter a max number: ', (maxAnswer) => {
-//             rl.close();
-//             secretnumber = randomInRange(minAnswer, maxAnswer);
-//         });
-//     });
-
-// }
-// askRange()
+};
+askGuess();
