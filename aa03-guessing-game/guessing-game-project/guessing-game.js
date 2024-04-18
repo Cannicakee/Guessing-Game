@@ -1,26 +1,29 @@
-import * as readline from 'node:readline/promises';
-import { stdin as input, stdout as output } from 'node:process';
+
+const readline = require('node:readline');
+const { stdin: input, stdout: output } = require('node:process');
 
 const rl = readline.createInterface({ input, output });
 
-const answer = await rl.question('What do you think of Node.js? ');
+rl.question('Enter a guess: ', (answer) => {
+  console.log(`${answer}`);
 
-console.log(`Thank you for your valuable feedback: ${answer}`);
+  rl.close();
+});
 
-rl.close();
+let secretnumber = 3;
+const checkGuess = num => {
+    if (secretnumber < num) {
+        console.log("Too high.")
+        return false;
+    }
+    if (secretnumber > num) {
+        console.log("Too low.")
+        return false;
+    }
+    if (secretnumber === num) {
+        console.log("Correct!")
+        return true;
+    }
+}
 
-// let secretnumber = 3;
-// const checkGuess = num => {
-//     if (secretnumber < num) {
-//         console.log("Too high.")
-//         return false;
-//     }
-//     if (secretnumber > num) {
-//         console.log("Too low.")
-//         return false;
-//     }
-//     if (secretnumber === num) {
-//         console.log("Correct!")
-//         return true;
-//     }
-// }
+// checkGuess(answer);
