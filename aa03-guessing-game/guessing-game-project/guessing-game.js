@@ -4,12 +4,17 @@ const { stdin: input, stdout: output } = require('node:process');
 
 const rl = readline.createInterface({ input, output });
 
-rl.question('Enter a guess: ', (answer) => {
-  console.log(`${answer}`);
-
-  rl.close();
-});
-
+function askGuess() {
+    rl.question('Enter a guess: ', (answer) => {
+        if (checkGuess(Number(answer))) {
+            console.log('You Win')
+            rl.close();
+        } else {
+            askGuess()
+        }
+    });
+}
+askGuess()
 let secretnumber = 3;
 const checkGuess = num => {
     if (secretnumber < num) {
@@ -25,5 +30,3 @@ const checkGuess = num => {
         return true;
     }
 }
-
-// checkGuess(answer);
